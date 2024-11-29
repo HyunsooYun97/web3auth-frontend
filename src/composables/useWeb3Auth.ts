@@ -38,6 +38,7 @@ const authAdapter = new AuthAdapter({
 interface Web3Auth {
   web3auth: Web3AuthNoModal;
   provider: Ref<IProvider | null>;
+  init: () => Promise<void>;
   login: (idToken: string) => Promise<void>;
   getBalance: () => Promise<void>;
 }
@@ -45,8 +46,11 @@ interface Web3Auth {
 export const useWeb3Auth = (): Web3Auth => {
   const provider = ref<IProvider | null>(null);
 
-  web3auth.configureAdapter(authAdapter);
-  provider.value = web3auth.provider;
+  async function init() {
+    web3auth.configureAdapter(authAdapter);
+    await web3auth.init();
+    provider.value = web3auth.provider;
+  }
 
   async function login(idToken: string) {
     if (!web3auth) {
@@ -58,10 +62,11 @@ export const useWeb3Auth = (): Web3Auth => {
       loginProvider: 'jwt',
       extraLoginOptions: {
         id_token: idToken,
-        verifierIdField: 'sub',
-        domain: 'http://localhost:3000',
+        verifierIdField: 'email',
+        domain: 'https://dev-portal.openmeta.city',
       },
     });
+    console.log('web3authProvider:', web3authProvider);
     provider.value = web3authProvider;
 
     return;
@@ -83,6 +88,7 @@ export const useWeb3Auth = (): Web3Auth => {
   return {
     web3auth,
     provider,
+    init,
     login,
     getBalance,
   };

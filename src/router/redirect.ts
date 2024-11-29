@@ -15,8 +15,10 @@ function handleGoogleRedirect(authCode: string) {
  * @param idToken
  */
 async function handleGoogleIdToken(idToken: string) {
-  const { login, getBalance } = useWeb3Auth();
+  const { init, login, getBalance } = useWeb3Auth();
   console.log('idToken:', idToken);
+
+  await init();
   await login(idToken);
   await getBalance();
 }
