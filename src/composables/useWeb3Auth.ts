@@ -25,7 +25,6 @@ export const useWeb3Auth = () => {
       access_type: 'offline', // 이 값을 반드시 지정해야 authorization_code를 token으로 교환할 때 access_token과 함께 refresh_token 도 얻을 수 있다
       prompt: 'consent', // 이 값을 반드시 지정해야 authorization_code를 token으로 교환할 때 access_token과 함께 refresh_token 도 얻을 수 있다
     };
-    console.log('params:', params);
 
     // Add form parameters as hidden input values.
     for (const p in params) {
@@ -38,7 +37,7 @@ export const useWeb3Auth = () => {
 
     // Add form to page and submit it to open the OAuth 2.0 endpoint.
     document.body.appendChild(form);
-    // form.submit();
+    form.submit();
   }
 
   return {
