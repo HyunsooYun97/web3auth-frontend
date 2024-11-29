@@ -1,10 +1,4 @@
-import {
-  WALLET_ADAPTERS,
-  CHAIN_NAMESPACES,
-  IProvider,
-  UX_MODE,
-  WEB3AUTH_NETWORK,
-} from '@web3auth/base';
+import { CHAIN_NAMESPACES } from '@web3auth/base';
 
 export const TRON_SHASTA_TESTNET = {
   chainNamespace: CHAIN_NAMESPACES.EIP155,
