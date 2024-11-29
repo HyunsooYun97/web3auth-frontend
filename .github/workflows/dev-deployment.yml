@@ -1,9 +1,13 @@
 name: Manual Deploy Vue3 to S3 and invalidate CloudFront
 on:
   # push:
-    # branches:
-      # - main # 또는 master, 프로젝트의 기본 브랜치 이름에 맞게 조정
-  workflow_dispatch:  # 수동 실행만 가능하도록 설정
+  # branches:
+  # - main # 또는 master, 프로젝트의 기본 브랜치 이름에 맞게 조정
+  workflow_dispatch: # 수동 실행만 가능하도록 설정
+
+env:
+  VITE_AUTH_GOOGLE_CLIENT_ID: ${{ secrets.VITE_AUTH_GOOGLE_CLIENT_ID }}
+  VITE_AUTH_GOOGLE_REDIRECT_URI: ${{ secrets.VITE_AUTH_GOOGLE_REDIRECT_URI }}
 
 jobs:
   deploy:
@@ -11,17 +15,17 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        
+
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22' 
+          node-version: '22'
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
           version: 9
-          
+
       - name: Get pnpm store directory
         shell: bash
         run: |
