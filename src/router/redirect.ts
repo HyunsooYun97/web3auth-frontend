@@ -1,5 +1,7 @@
 import type { RouteRecordRaw } from 'vue-router';
 
+import { useWeb3Auth } from '@/composables/useWeb3Auth';
+
 /**
  * @description Handle Google OAuth redirect.
  * @param authCode
@@ -13,7 +15,10 @@ function handleGoogleRedirect(authCode: string) {
  * @param idToken
  */
 function handleGoogleIdToken(idToken: string) {
+  const { login, getBalance } = useWeb3Auth();
   console.log('idToken:', idToken);
+  login(idToken);
+  getBalance();
 }
 
 const redirect: RouteRecordRaw[] = [

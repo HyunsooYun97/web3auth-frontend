@@ -1,55 +1,85 @@
-export const useWeb3Auth = () => {
-  /**
-   * @description Create form to request access token from Google's OAuth 2.0 server.
-   */
-  function signInWithGoogle(responseType: 'code' | 'token') {
-    // Google's OAuth 2.0 endpoint for requesting an access token
-    const oauth2Endpoint = 'https://accounts.google.com/o/oauth2/v2/auth';
+import { ref, type Ref } from 'vue';
 
-    const responseTypeParams = {
-      code: {
-        response_type: 'code',
-        // https://github.com/googleapis/google-api-nodejs-client/issues/750
-        access_type: 'offline', // 이 값을 반드시 지정해야 authorization_code를 token으로 교환할 때 access_token과 함께 refresh_token 도 얻을 수 있다
-        prompt: 'consent', // 이 값을 반드시 지정해야 authorization_code를 token으로 교환할 때 access_token과 함께 refresh_token 도 얻을 수 있다
+import { Web3AuthNoModal } from '@web3auth/no-modal';
+import { EthereumPrivateKeyProvider } from '@web3auth/ethereum-provider';
+import {
+  UX_MODE,
+  WALLET_ADAPTERS,
+  WEB3AUTH_NETWORK,
+  type IProvider,
+} from '@web3auth/base';
+import { AuthAdapter } from '@web3auth/auth-adapter';
+
+import { TRON_SHASTA_TESTNET } from '@/config';
+import RPC from '@/utils/evm.ethers';
+
+const { VITE_AUTH_WEB3AUTH_CLIENT_ID } = import.meta.env;
+
+const privateKeyProvider = new EthereumPrivateKeyProvider({
+  config: { chainConfig: TRON_SHASTA_TESTNET },
+});
+const web3auth = new Web3AuthNoModal({
+  clientId: VITE_AUTH_WEB3AUTH_CLIENT_ID,
+  web3AuthNetwork: WEB3AUTH_NETWORK.SAPPHIRE_DEVNET,
+  privateKeyProvider,
+});
+const authAdapter = new AuthAdapter({
+  adapterSettings: {
+    uxMode: UX_MODE.REDIRECT,
+    loginConfig: {
+      jwt: {
+        verifier: 'omc-google-custom-test',
+        typeOfLogin: 'jwt',
+        clientId: VITE_AUTH_WEB3AUTH_CLIENT_ID,
       },
-      token: {
-        response_type: 'token',
-      },
-    };
+    },
+  },
+});
+interface Web3Auth {
+  web3auth: Web3AuthNoModal;
+  provider: Ref<IProvider | null>;
+  login: (idToken: string) => Promise<void>;
+  getBalance: () => Promise<void>;
+}
 
-    // Create <form> element to submit parameters to OAuth 2.0 endpoint.
-    const form = document.createElement('form');
-    form.setAttribute('method', 'GET'); // Send as a GET request.
-    form.setAttribute('action', oauth2Endpoint);
+export const useWeb3Auth = (): Web3Auth => {
+  const provider = ref<IProvider | null>(null);
 
-    // Parameters to pass to OAuth 2.0 endpoint.
-    // https://developers.google.com/identity/protocols/oauth2/javascript-implicit-flow?hl=ko#redirecting
-    const params: Record<string, string> = {
-      client_id: import.meta.env.VITE_AUTH_GOOGLE_CLIENT_ID,
-      redirect_uri: import.meta.env.VITE_AUTH_GOOGLE_REDIRECT_URI,
-      scope: 'https://www.googleapis.com/auth/userinfo.profile',
-      //   'https://www.googleapis.com/auth/drive.metadata.readonly https://www.googleapis.com/auth/calendar.readonly',
-      include_granted_scopes: 'true',
-      state: 'pass-through value',
-      ...responseTypeParams[responseType],
-    };
+  web3auth.configureAdapter(authAdapter);
+  provider.value = web3auth.provider;
 
-    // Add form parameters as hidden input values.
-    for (const p in params) {
-      const input = document.createElement('input');
-      input.setAttribute('type', 'hidden');
-      input.setAttribute('name', p);
-      input.setAttribute('value', params[p]);
-      form.appendChild(input);
+  async function login(idToken: string) {
+    if (!web3auth) {
+      console.log('web3auth not initialized yet');
+      return;
     }
 
-    // Add form to page and submit it to open the OAuth 2.0 endpoint.
-    document.body.appendChild(form);
-    form.submit();
+    const web3authProvider = await web3auth.connectTo(WALLET_ADAPTERS.AUTH, {
+      loginProvider: 'jwt',
+      extraLoginOptions: {
+        id_token: idToken,
+        verifierIdField: 'sub',
+        domain: 'http://localhost:3000',
+      },
+    });
+    provider.value = web3authProvider;
+  }
+
+  async function getBalance() {
+    if (!provider.value) {
+      console.log('provider not initialized yet');
+      return;
+    }
+
+    const rpc = new RPC(provider.value);
+    const balance = await rpc.getBalance();
+    console.log(balance);
   }
 
   return {
-    signInWithGoogle,
+    web3auth,
+    provider,
+    login,
+    getBalance,
   };
 };
