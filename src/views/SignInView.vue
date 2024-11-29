@@ -9,8 +9,11 @@ const { signInWithGoogle } = useWeb3Auth();
     <h1>Sign In</h1>
 
     <section>
-      <button type="button" @click="signInWithGoogle">
-        Sign In with Google
+      <button type="button" @click="signInWithGoogle('code')">
+        Sign In with Google (code)
+      </button>
+      <button type="button" @click="signInWithGoogle('token')">
+        Sign In with Google (token)
       </button>
     </section>
   </div>
