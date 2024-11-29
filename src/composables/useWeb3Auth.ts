@@ -16,7 +16,7 @@ export const useWeb3Auth = () => {
     const params: Record<string, string> = {
       client_id: import.meta.env.VITE_AUTH_GOOGLE_CLIENT_ID,
       redirect_uri: import.meta.env.VITE_AUTH_GOOGLE_REDIRECT_URI,
-      response_type: 'token',
+      response_type: 'code',
       scope:
         'https://www.googleapis.com/auth/drive.metadata.readonly https://www.googleapis.com/auth/calendar.readonly',
       include_granted_scopes: 'true',
