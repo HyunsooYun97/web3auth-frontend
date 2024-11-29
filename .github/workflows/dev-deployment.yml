@@ -6,8 +6,8 @@ on:
   workflow_dispatch: # 수동 실행만 가능하도록 설정
 
 env:
-  VITE_AUTH_GOOGLE_CLIENT_ID: ${{ secrets.VITE_AUTH_GOOGLE_CLIENT_ID }}
-  VITE_AUTH_GOOGLE_REDIRECT_URI: ${{ secrets.VITE_AUTH_GOOGLE_REDIRECT_URI }}
+  VITE_AUTH_GOOGLE_CLIENT_ID: ${{ secrets.DEV_AUTH_GOOGLE_CLIENT_ID }}
+  VITE_AUTH_GOOGLE_REDIRECT_URI: ${{ secrets.DEV_AUTH_GOOGLE_REDIRECT_URI }}
 
 jobs:
   deploy:
