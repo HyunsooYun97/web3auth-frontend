@@ -63,6 +63,8 @@ export const useWeb3Auth = (): Web3Auth => {
       },
     });
     provider.value = web3authProvider;
+
+    return;
   }
 
   async function getBalance() {
@@ -74,6 +76,8 @@ export const useWeb3Auth = (): Web3Auth => {
     const rpc = new RPC(provider.value);
     const balance = await rpc.getBalance();
     console.log(balance);
+
+    return;
   }
 
   return {

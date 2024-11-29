@@ -14,11 +14,11 @@ function handleGoogleRedirect(authCode: string) {
  * @description Handle Google OAuth id token.
  * @param idToken
  */
-function handleGoogleIdToken(idToken: string) {
+async function handleGoogleIdToken(idToken: string) {
   const { login, getBalance } = useWeb3Auth();
   console.log('idToken:', idToken);
-  login(idToken);
-  getBalance();
+  await login(idToken);
+  await getBalance();
 }
 
 const redirect: RouteRecordRaw[] = [
