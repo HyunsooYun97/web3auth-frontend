@@ -25,7 +25,7 @@ const web3auth = new Web3AuthNoModal({
 });
 const authAdapter = new AuthAdapter({
   adapterSettings: {
-    uxMode: UX_MODE.REDIRECT,
+    uxMode: UX_MODE.POPUP,
     loginConfig: {
       jwt: {
         verifier: 'omc-google-custom-test',
