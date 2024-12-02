@@ -23,6 +23,12 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView,
+      beforeEnter: async (to, from, next) => {
+        const web3authStore = useWeb3AuthStore();
+
+        await web3authStore.init();
+        next();
+      },
     },
     {
       path: '/sign-in',
@@ -33,12 +39,6 @@ const router = createRouter({
       path: '/wallet',
       name: 'wallet',
       component: WalletView,
-      beforeEnter: async (to, from, next) => {
-        const web3authStore = useWeb3AuthStore();
-
-        await web3authStore.init();
-        next();
-      },
     },
     ...redirect,
   ],
