@@ -8,9 +8,9 @@ import HelloWorld from './components/HelloWorld.vue';
 
 const { web3auth, init, login, isLoggedIn } = useWeb3Auth();
 
-const idToken = localStorage.getItem('idToken');
-
 onMounted(async () => {
+  const idToken = localStorage.getItem('idToken');
+
   if (!web3auth?.connected && idToken) {
     await init();
     await login(idToken as string);
