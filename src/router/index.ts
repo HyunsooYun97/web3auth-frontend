@@ -4,6 +4,8 @@ import HomeView from '@/views/HomeView.vue';
 
 import redirect from './redirect';
 
+import { useWeb3AuthStore } from '@/stores/web3auth';
+
 // route level code-splitting
 // this generates a separate chunk (About.[hash].js) for this route
 // which is lazy-loaded when the route is visited.
@@ -31,6 +33,12 @@ const router = createRouter({
       path: '/wallet',
       name: 'wallet',
       component: WalletView,
+      beforeEnter: async (to, from, next) => {
+        const web3authStore = useWeb3AuthStore();
+
+        await web3authStore.init();
+        next();
+      },
     },
     ...redirect,
   ],

@@ -22,7 +22,6 @@ async function handleGoogleIdToken(idToken: string) {
 
   await web3authStore.init();
   await web3authStore.login();
-  await web3authStore.getBalance();
 
   return;
 }
