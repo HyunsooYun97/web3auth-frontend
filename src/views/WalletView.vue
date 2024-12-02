@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue';
 import { useWeb3Auth } from '@/composables/useWeb3Auth';
 
-const { init, login, getBalance } = useWeb3Auth();
+const { isLoggedIn, init, login, getBalance } = useWeb3Auth();
 
 const idToken = localStorage.getItem('idToken');
 
@@ -10,7 +10,7 @@ const balance = ref<string | undefined>(undefined);
 
 onMounted(async () => {
   await init();
-  await login(idToken as string);
+  if (idToken && !isLoggedIn.value) await login(idToken as string);
   balance.value = await getBalance();
 });
 </script>
