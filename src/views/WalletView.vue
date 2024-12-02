@@ -20,9 +20,9 @@ onMounted(async () => {
     <h1>Wallet</h1>
 
     <section class="wallet-buttons">
-      <button>Get Balance</button>
+      <button @click="getBalance">Get Balance</button>
 
-      <p>{{ balance }}</p>
+      <p v-if="balance">Balance: {{ balance }}</p>
     </section>
   </div>
 </template>
@@ -36,7 +36,20 @@ onMounted(async () => {
   .wallet-buttons {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
     gap: 1rem;
+
+    button {
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      line-height: 1.5;
+      border: none;
+      background-color: #ffffff;
+      color: #000000;
+      cursor: pointer;
+    }
   }
 }
 </style>
