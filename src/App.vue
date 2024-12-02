@@ -1,9 +1,19 @@
 <script setup lang="ts">
+import { onMounted } from 'vue';
 import { RouterLink, RouterView } from 'vue-router';
-import HelloWorld from './components/HelloWorld.vue';
+
 import { useWeb3Auth } from '@/composables/useWeb3Auth';
 
-const { isSignedIn } = useWeb3Auth();
+import HelloWorld from './components/HelloWorld.vue';
+
+const { web3auth, init, login, isLoggedIn } = useWeb3Auth();
+
+const idToken = localStorage.getItem('idToken');
+
+onMounted(async () => {
+  await init();
+  if (!web3auth?.connected && idToken) await login(idToken as string);
+});
 </script>
 
 <template>
@@ -22,8 +32,8 @@ const { isSignedIn } = useWeb3Auth();
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <!-- <RouterLink to="/about">About</RouterLink> -->
-        <RouterLink v-if="!isSignedIn" to="/sign-in">Sign In</RouterLink>
-        <RouterLink v-if="isSignedIn" to="/wallet">Wallet</RouterLink>
+        <RouterLink v-if="!isLoggedIn" to="/sign-in">Sign In</RouterLink>
+        <RouterLink v-if="isLoggedIn" to="/wallet">Wallet</RouterLink>
       </nav>
     </div>
   </header>

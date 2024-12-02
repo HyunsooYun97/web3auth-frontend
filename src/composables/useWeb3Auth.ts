@@ -40,21 +40,21 @@ const authAdapter = new AuthAdapter({
 interface Web3Auth {
   web3auth: Web3AuthNoModal;
   provider: Ref<IProvider | null>;
-  isSignedIn: Ref<boolean>;
+  isLoggedIn: Ref<boolean>;
   init: () => Promise<void>;
   login: (idToken: string) => Promise<void>;
   getBalance: () => Promise<string | undefined>;
 }
 
 export const useWeb3Auth = (): Web3Auth => {
-  const isSignedIn = ref(false);
+  const isLoggedIn = ref(false);
   const provider = ref<IProvider | null>(null);
 
   async function init() {
     web3auth.configureAdapter(authAdapter);
     await web3auth.init();
     provider.value = web3auth.provider;
-    if (web3auth.connected) isSignedIn.value = true;
+    if (web3auth.connected) isLoggedIn.value = true;
   }
 
   async function login(idToken: string) {
@@ -73,6 +73,7 @@ export const useWeb3Auth = (): Web3Auth => {
     });
     console.log('web3authProvider:', web3authProvider);
     provider.value = web3authProvider;
+    isLoggedIn.value = true;
 
     return;
   }
@@ -93,7 +94,7 @@ export const useWeb3Auth = (): Web3Auth => {
   return {
     web3auth,
     provider,
-    isSignedIn,
+    isLoggedIn,
     init,
     login,
     getBalance,
