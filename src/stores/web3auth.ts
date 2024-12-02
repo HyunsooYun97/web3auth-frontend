@@ -81,10 +81,8 @@ export const useWeb3AuthStore = defineStore('web3auth', () => {
     setWeb3auth(web3authInstance);
 
     if (web3authInstance.connected) {
-      console.log('web3auth connected');
-      console.log('web3authInstance:', web3authInstance);
-      console.log('web3auth provider:', web3authInstance.provider);
       setLoggedIn(true);
+      setProvider(web3authInstance.provider);
     }
   }
 
