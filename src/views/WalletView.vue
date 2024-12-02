@@ -5,7 +5,7 @@ import { storeToRefs } from 'pinia';
 import { useWeb3AuthStore } from '@/stores/web3auth';
 
 const web3authStore = useWeb3AuthStore();
-const { isLoggedIn } = storeToRefs(web3authStore);
+const { web3auth, isLoggedIn } = storeToRefs(web3authStore);
 
 const balance = ref<string | undefined>(undefined);
 
@@ -13,7 +13,7 @@ onMounted(async () => {
   console.log('WalletView isLoggedIn:', isLoggedIn.value);
   const idToken = localStorage.getItem('idToken');
 
-  if (idToken && !isLoggedIn.value) {
+  if (idToken && !isLoggedIn.value && !web3auth.value?.connected) {
     await web3authStore.init();
     await web3authStore.login();
   }

@@ -69,6 +69,7 @@ export const useWeb3AuthStore = defineStore('web3auth', () => {
    * @description Web3Auth 초기화
    */
   async function init() {
+    console.log('web3auth init');
     if (web3auth.value?.connected) {
       console.log('web3auth already initialized');
       return;
@@ -89,6 +90,7 @@ export const useWeb3AuthStore = defineStore('web3auth', () => {
    * @description Web3Auth 로그인
    */
   async function login() {
+    console.log('web3auth login');
     if (web3auth.value === null) {
       console.log('web3auth not initialized yet');
       return;
@@ -115,6 +117,7 @@ export const useWeb3AuthStore = defineStore('web3auth', () => {
    * @description 잔액 가져오기
    */
   async function getBalance() {
+    console.log('web3auth getBalance');
     if (provider.value === null) {
       console.log('provider not initialized yet');
       return;
