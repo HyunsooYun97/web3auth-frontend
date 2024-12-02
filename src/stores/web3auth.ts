@@ -70,7 +70,7 @@ export const useWeb3AuthStore = defineStore('web3auth', () => {
    */
   async function init() {
     console.log('web3auth init');
-    if (web3auth.value?.connected) {
+    if (web3auth.value?.connected && provider.value !== null) {
       console.log('web3auth already initialized');
       return;
     }
@@ -79,7 +79,6 @@ export const useWeb3AuthStore = defineStore('web3auth', () => {
     await web3authInstance.init();
 
     setWeb3auth(web3authInstance);
-    setProvider(web3authInstance.provider);
 
     if (web3authInstance.connected) {
       setLoggedIn(true);
