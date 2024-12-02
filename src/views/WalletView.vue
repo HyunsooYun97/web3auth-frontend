@@ -9,11 +9,14 @@ const idToken = localStorage.getItem('idToken');
 const balance = ref<string | undefined>(undefined);
 
 onMounted(async () => {
+  console.log('WalletView isLoggedIn:', isLoggedIn.value);
+
   if (idToken && !isLoggedIn.value) {
     await init();
     await login(idToken as string);
   }
   balance.value = await getBalance();
+  console.log('WalletView balance:', balance.value);
 });
 </script>
 

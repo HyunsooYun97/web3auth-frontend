@@ -12,8 +12,10 @@ onMounted(async () => {
   const idToken = localStorage.getItem('idToken');
 
   if (!web3auth?.connected && idToken) {
+    console.log('App.vue idToken:', idToken);
     await init();
     await login(idToken as string);
+    console.log('App.vue isLoggedIn:', isLoggedIn.value);
   }
 });
 </script>
