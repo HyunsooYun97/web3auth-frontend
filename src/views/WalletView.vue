@@ -4,12 +4,11 @@ import { useWeb3Auth } from '@/composables/useWeb3Auth';
 
 const { isLoggedIn, init, login, getBalance } = useWeb3Auth();
 
-const idToken = localStorage.getItem('idToken');
-
 const balance = ref<string | undefined>(undefined);
 
 onMounted(async () => {
   console.log('WalletView isLoggedIn:', isLoggedIn.value);
+  const idToken = localStorage.getItem('idToken');
 
   if (idToken && !isLoggedIn.value) {
     await init();
