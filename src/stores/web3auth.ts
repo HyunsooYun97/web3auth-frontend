@@ -69,7 +69,7 @@ export const useWeb3AuthStore = defineStore('web3auth', () => {
    * @description Web3Auth 초기화
    */
   async function init() {
-    if (web3auth.value !== null) {
+    if (web3auth.value?.connected) {
       console.log('web3auth already initialized');
       return;
     }
