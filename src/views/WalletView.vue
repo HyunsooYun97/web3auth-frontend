@@ -1,22 +1,13 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 
-import { storeToRefs } from 'pinia';
 import { useWeb3AuthStore } from '@/stores/web3auth';
 
 const web3authStore = useWeb3AuthStore();
-const { provider, isLoggedIn } = storeToRefs(web3authStore);
 
 const balance = ref<string | undefined>(undefined);
 
 onMounted(async () => {
-  console.log('WalletView isLoggedIn:', isLoggedIn.value);
-  const idToken = localStorage.getItem('idToken');
-
-  if (idToken && !isLoggedIn.value && provider.value === null) {
-    await web3authStore.init();
-    await web3authStore.login();
-  }
   balance.value = await web3authStore.getBalance();
   console.log('WalletView balance:', balance.value);
 });
