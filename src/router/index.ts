@@ -41,7 +41,9 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const web3authStore = useWeb3AuthStore();
 
-  await web3authStore.init();
+  const idToken = web3authStore.getIdToken();
+
+  if (idToken !== null) await web3authStore.init();
   next();
 });
 

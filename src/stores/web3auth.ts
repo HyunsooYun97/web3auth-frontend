@@ -114,6 +114,47 @@ export const useWeb3AuthStore = defineStore('web3auth', () => {
   }
 
   /**
+   * @description Web3Auth 로그아웃
+   */
+  async function logout() {
+    if (web3auth.value === null) {
+      console.log('web3auth not initialized yet');
+      return;
+    }
+
+    await web3auth.value.logout();
+    localStorage.removeItem('idToken');
+    setLoggedIn(false);
+    setProvider(null);
+  }
+
+  /**
+   * @description 유저 정보 가져오기
+   */
+  async function getUserInfo() {
+    if (web3auth.value === null) {
+      console.log('web3auth not initialized yet');
+      return;
+    }
+    const user = await web3auth.value.getUserInfo();
+    return user;
+  }
+
+  /**
+   * @description 지갑 정보 가져오기
+   */
+  async function getWalletInfo() {
+    if (provider.value === null) {
+      console.log('provider not initialized yet');
+      return;
+    }
+
+    const rpc = new RPC(provider.value);
+    const wallet = await rpc.getAccounts();
+    return wallet;
+  }
+
+  /**
    * @description 잔액 가져오기
    */
   async function getBalance() {
@@ -128,6 +169,35 @@ export const useWeb3AuthStore = defineStore('web3auth', () => {
     return balance;
   }
 
+  /**
+   * @description 주소 가져오기
+   */
+  async function getAddress() {
+    console.log('web3auth getAddress');
+    if (provider.value === null) {
+      console.log('provider not initialized yet');
+      return;
+    }
+
+    const rpc = new RPC(provider.value);
+    const address = await rpc.getAccounts();
+    return address;
+  }
+
+  /**
+   * @description 체인 정보 가져오기
+   */
+  async function getChainInfo() {
+    if (provider.value === null) {
+      console.log('provider not initialized yet');
+      return;
+    }
+
+    const rpc = new RPC(provider.value);
+    const chain = await rpc.getChainId();
+    return chain;
+  }
+
   return {
     web3auth,
     provider,
@@ -136,6 +206,11 @@ export const useWeb3AuthStore = defineStore('web3auth', () => {
     setIdToken,
     init,
     login,
+    logout,
+    getUserInfo,
+    getWalletInfo,
     getBalance,
+    getAddress,
+    getChainInfo,
   };
 });
