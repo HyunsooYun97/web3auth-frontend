@@ -9,8 +9,10 @@ const idToken = localStorage.getItem('idToken');
 const balance = ref<string | undefined>(undefined);
 
 onMounted(async () => {
-  await init();
-  if (idToken && !isLoggedIn.value) await login(idToken as string);
+  if (idToken && !isLoggedIn.value) {
+    await init();
+    await login(idToken as string);
+  }
   balance.value = await getBalance();
 });
 </script>

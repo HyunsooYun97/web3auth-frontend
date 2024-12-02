@@ -11,8 +11,10 @@ const { web3auth, init, login, isLoggedIn } = useWeb3Auth();
 const idToken = localStorage.getItem('idToken');
 
 onMounted(async () => {
-  await init();
-  if (!web3auth?.connected && idToken) await login(idToken as string);
+  if (!web3auth?.connected && idToken) {
+    await init();
+    await login(idToken as string);
+  }
 });
 </script>
 
