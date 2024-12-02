@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router';
 import HelloWorld from './components/HelloWorld.vue';
+import { useWeb3Auth } from '@/composables/useWeb3Auth';
+
+const { isSignedIn } = useWeb3Auth();
 </script>
 
 <template>
@@ -19,7 +22,8 @@ import HelloWorld from './components/HelloWorld.vue';
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <!-- <RouterLink to="/about">About</RouterLink> -->
-        <RouterLink to="/sign-in">Sign In</RouterLink>
+        <RouterLink v-if="!isSignedIn" to="/sign-in">Sign In</RouterLink>
+        <RouterLink v-if="isSignedIn" to="/wallet">Wallet</RouterLink>
       </nav>
     </div>
   </header>

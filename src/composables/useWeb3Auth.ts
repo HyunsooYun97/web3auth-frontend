@@ -25,7 +25,9 @@ const web3auth = new Web3AuthNoModal({
 });
 const authAdapter = new AuthAdapter({
   adapterSettings: {
-    uxMode: UX_MODE.POPUP,
+    // POPUP은 버튼 클릭으로만 동작함.
+    // REDIRECT는 페이지 리다이렉션 후 동작함.
+    uxMode: UX_MODE.REDIRECT,
     loginConfig: {
       jwt: {
         verifier: 'omc-google-custom-test',
@@ -38,18 +40,21 @@ const authAdapter = new AuthAdapter({
 interface Web3Auth {
   web3auth: Web3AuthNoModal;
   provider: Ref<IProvider | null>;
+  isSignedIn: Ref<boolean>;
   init: () => Promise<void>;
   login: (idToken: string) => Promise<void>;
-  getBalance: () => Promise<void>;
+  getBalance: () => Promise<string | undefined>;
 }
 
 export const useWeb3Auth = (): Web3Auth => {
+  const isSignedIn = ref(false);
   const provider = ref<IProvider | null>(null);
 
   async function init() {
     web3auth.configureAdapter(authAdapter);
     await web3auth.init();
     provider.value = web3auth.provider;
+    if (web3auth.connected) isSignedIn.value = true;
   }
 
   async function login(idToken: string) {
@@ -82,12 +87,13 @@ export const useWeb3Auth = (): Web3Auth => {
     const balance = await rpc.getBalance();
     console.log(balance);
 
-    return;
+    return balance;
   }
 
   return {
     web3auth,
     provider,
+    isSignedIn,
     init,
     login,
     getBalance,
