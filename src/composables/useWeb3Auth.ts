@@ -53,13 +53,19 @@ export const useWeb3Auth = (): Web3Auth => {
   async function init() {
     web3auth.configureAdapter(authAdapter);
     await web3auth.init();
-    provider.value = web3auth.provider;
-    if (web3auth.connected) isLoggedIn.value = true;
+
+    return;
   }
 
   async function login(idToken: string) {
     if (!web3auth) {
       console.log('web3auth not initialized yet');
+      return;
+    }
+    if (web3auth.connected) {
+      console.log('web3auth already connected');
+      provider.value = web3auth.provider as IProvider;
+      isLoggedIn.value = true;
       return;
     }
 
