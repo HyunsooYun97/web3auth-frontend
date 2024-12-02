@@ -44,6 +44,15 @@ router.beforeEach(async (to, from, next) => {
   const idToken = web3authStore.getIdToken();
 
   if (idToken !== null) await web3authStore.init();
+
+  if (
+    (to.name === 'sign-in' && idToken !== null) ||
+    (to.name === 'wallet' && idToken === null)
+  ) {
+    next({ name: 'home' });
+    return;
+  }
+
   next();
 });
 

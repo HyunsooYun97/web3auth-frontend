@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import { useRouter } from 'vue-router';
 
 import { Web3AuthNoModal } from '@web3auth/no-modal';
 import { EthereumPrivateKeyProvider } from '@web3auth/ethereum-provider';
@@ -16,6 +17,8 @@ import RPC from '@/utils/evm.ethers';
 import { useState } from '@/composables';
 
 const { VITE_AUTH_WEB3AUTH_CLIENT_ID } = import.meta.env;
+
+const router = useRouter();
 
 /**
  * @description Web3Auth 초기화
@@ -126,6 +129,8 @@ export const useWeb3AuthStore = defineStore('web3auth', () => {
     localStorage.removeItem('idToken');
     setLoggedIn(false);
     setProvider(null);
+
+    router.push({ name: 'home' });
   }
 
   /**
