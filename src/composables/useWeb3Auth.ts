@@ -51,6 +51,11 @@ export const useWeb3Auth = (): Web3Auth => {
   const provider = ref<IProvider | null>(null);
 
   async function init() {
+    if (web3auth.connected || web3auth.getAdapter(WALLET_ADAPTERS.AUTH)) {
+      console.log('web3auth already initialized');
+      return;
+    }
+
     web3auth.configureAdapter(authAdapter);
     await web3auth.init();
 
