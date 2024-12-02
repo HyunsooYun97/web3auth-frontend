@@ -23,20 +23,21 @@ async function handleGoogleIdToken(idToken: string) {
   await web3authStore.init();
   await web3authStore.login();
   await web3authStore.getBalance();
-  localStorage.setItem('idToken', idToken);
+
+  return;
 }
 
 const redirect: RouteRecordRaw[] = [
   {
     path: '/redirect/google',
     component: () => null,
-    beforeEnter: (to, from, next) => {
+    beforeEnter: async (to, from, next) => {
       console.log('redirect-google params:', to.query);
 
       // url 파라미터에서 auth_code 추출
       const { code: authCode, id_token: idToken } = to.query;
       if (authCode !== undefined) handleGoogleRedirect(authCode as string);
-      if (idToken !== undefined) handleGoogleIdToken(idToken as string);
+      if (idToken !== undefined) await handleGoogleIdToken(idToken as string);
 
       next({ name: 'home' });
     },
