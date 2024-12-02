@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { useWeb3Auth } from '@/composables/useWeb3Auth';
 
-const { isLoggedIn, init, login, getBalance } = useWeb3Auth();
+import { storeToRefs } from 'pinia';
+import { useWeb3AuthStore } from '@/stores/web3auth';
+
+const web3authStore = useWeb3AuthStore();
+const { isLoggedIn } = storeToRefs(web3authStore);
 
 const balance = ref<string | undefined>(undefined);
 
@@ -11,10 +14,10 @@ onMounted(async () => {
   const idToken = localStorage.getItem('idToken');
 
   if (idToken && !isLoggedIn.value) {
-    await init();
-    await login(idToken as string);
+    await web3authStore.init();
+    await web3authStore.login();
   }
-  balance.value = await getBalance();
+  balance.value = await web3authStore.getBalance();
   console.log('WalletView balance:', balance.value);
 });
 </script>
@@ -24,7 +27,7 @@ onMounted(async () => {
     <h1>Wallet</h1>
 
     <section class="wallet-buttons">
-      <button @click="getBalance">Get Balance</button>
+      <button @click="web3authStore.getBalance">Get Balance</button>
 
       <p v-if="balance">Balance: {{ balance }}</p>
     </section>
@@ -34,14 +37,14 @@ onMounted(async () => {
 <style lang="scss" scoped>
 @media (min-width: 1024px) {
   .wallet {
-    min-height: 100vh;
-  }
-
-  .wallet-buttons {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    min-height: 100vh;
+  }
+
+  .wallet-buttons {
     gap: 1rem;
 
     button {

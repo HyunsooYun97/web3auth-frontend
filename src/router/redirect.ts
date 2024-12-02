@@ -1,5 +1,7 @@
 import type { RouteRecordRaw } from 'vue-router';
 
+import { useWeb3AuthStore } from '@/stores/web3auth';
+
 /**
  * @description Handle Google OAuth redirect.
  * @param authCode
@@ -13,11 +15,14 @@ function handleGoogleRedirect(authCode: string) {
  * @param idToken
  */
 async function handleGoogleIdToken(idToken: string) {
+  const web3authStore = useWeb3AuthStore();
   console.log('idToken:', idToken);
 
-  // await init();
-  // await login(idToken);
-  // await getBalance();
+  web3authStore.setIdToken(idToken);
+
+  await web3authStore.init();
+  await web3authStore.login();
+  await web3authStore.getBalance();
   localStorage.setItem('idToken', idToken);
 }
 

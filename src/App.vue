@@ -1,23 +1,13 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { storeToRefs } from 'pinia';
 import { RouterLink, RouterView } from 'vue-router';
 
-import { useWeb3Auth } from '@/composables/useWeb3Auth';
+import { useWeb3AuthStore } from '@/stores/web3auth';
 
 import HelloWorld from './components/HelloWorld.vue';
 
-const { web3auth, init, login, isLoggedIn } = useWeb3Auth();
-
-onMounted(async () => {
-  const idToken = localStorage.getItem('idToken');
-
-  if (!web3auth?.connected && idToken) {
-    console.log('App.vue idToken:', idToken);
-    await init();
-    await login(idToken as string);
-    console.log('App.vue isLoggedIn:', isLoggedIn.value);
-  }
-});
+const web3authStore = useWeb3AuthStore();
+const { isLoggedIn } = storeToRefs(web3authStore);
 </script>
 
 <template>
