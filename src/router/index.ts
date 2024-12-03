@@ -9,8 +9,9 @@ import { useWeb3AuthStore } from '@/stores/useWeb3authStore';
 // route level code-splitting
 // this generates a separate chunk (About.[hash].js) for this route
 // which is lazy-loaded when the route is visited.
-const SignInView = () => import('../views/SignInView.vue');
-const WalletView = () => import('../views/WalletView.vue');
+const SignInView = () => import('@/views/SignInView.vue');
+const WalletView = () => import('@/views/WalletView.vue');
+const WalletServicesView = () => import('@/views/WalletServicesView.vue');
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,6 +34,11 @@ const router = createRouter({
       path: '/wallet',
       name: 'wallet',
       component: WalletView,
+    },
+    {
+      path: '/wallet-services',
+      name: 'wallet-services',
+      component: WalletServicesView,
     },
     ...redirect,
   ],

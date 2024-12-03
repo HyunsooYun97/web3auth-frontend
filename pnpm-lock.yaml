@@ -20,6 +20,9 @@ importers:
       '@web3auth/no-modal':
         specifier: ^9.4.5
         version: 9.4.5(@babel/runtime@7.26.0)(@web3auth/auth-adapter@9.4.5(@babel/runtime@7.26.0))
+      '@web3auth/wallet-services-plugin':
+        specifier: ^9.4.5
+        version: 9.4.5(@babel/runtime@7.26.0)(@web3auth/auth-adapter@9.4.5(@babel/runtime@7.26.0))
       core-js:
         specifier: ^3.39.0
         version: 3.39.0
@@ -780,6 +783,12 @@ packages:
     resolution: {integrity: sha512-5PrSe2sn5Ed0u/2oRFtKaGOYpXJS+rJQXlYqxzy7Tbe2wLPCJh5/hZ3yStLfZmrYjHlWYwUx3AIpL/pUOOSU4w==}
     engines: {node: '>=18.x', npm: '>=9.x'}
 
+  '@toruslabs/ethereum-controllers@6.3.2':
+    resolution: {integrity: sha512-USh6xeFjz5US11sBj+yspRow3Y5KOTu9mzuouIs/Tuh8lFZTgD04sm5Hsx26jgz6ASl0jTSCZD1fLTQOQoEApA==}
+    engines: {node: '>=16.18.1', npm: '>=8.x'}
+    peerDependencies:
+      '@babel/runtime': 7.x
+
   '@toruslabs/ffjavascript@4.0.0':
     resolution: {integrity: sha512-sGPKK0xZ7KDLOsVc8/rCb83iCT1xD12+yfl3eoVNppr4vMcPJcXGwqpw4r1nP3Ln10UHvTCduxjUr3axdoxOSw==}
     engines: {node: '>=18.x', npm: '>=9.x'}
@@ -1095,6 +1104,18 @@ packages:
         optional: true
       '@web3auth/wallet-connect-v2-adapter':
         optional: true
+
+  '@web3auth/wallet-services-plugin@9.4.5':
+    resolution: {integrity: sha512-Qko1QFdiXlXjY4zJDAHiDp62amx052eTMTqfBw70w3wFOZ9jUWzkd0NW0Xkc2ulQFMnS79vEpuo36TJ3Y1WmdQ==}
+    engines: {node: '>=18.x', npm: '>=9.x'}
+    peerDependencies:
+      '@babel/runtime': ^7.x
+
+  '@web3auth/ws-embed@3.1.6':
+    resolution: {integrity: sha512-u31YpAJonAJR75OZaVwkJOR03Cci5APxyxFq8CYqC9FZfcrP69+5NGbe/SueyibVKEB5l0AflGcs0kGogKp3iw==}
+    engines: {node: '>=18.x', npm: '>=9.x'}
+    peerDependencies:
+      '@babel/runtime': 7.x
 
   abbrev@2.0.0:
     resolution: {integrity: sha512-6/mh1E2u2YgEsCHdY0Yx5oW+61gZU+1vXaoiHHrpKeuRNNgFvS+/jrwHiQhB5apAf5oB7UB7E19ol2R2LKH8hQ==}
@@ -1638,6 +1659,9 @@ packages:
   fast-glob@3.3.2:
     resolution: {integrity: sha512-oX2ruAFQwf/Orj8m737Y5adxDQO0LAB7/S5MnxCdTNDd4p6BsyIVsv9JQsATbTSq8KHRpLwIHbVlUNatxd+1Ow==}
     engines: {node: '>=8.6.0'}
+
+  fast-json-patch@3.1.1:
+    resolution: {integrity: sha512-vf6IHUX2SBcA+5/+4883dsIjpBTqmfBjmYiWK1savxQmFk4JfBMLa7ynTYOs1Rolp/T1betJxHiGD3g1Mn8lUQ==}
 
   fast-json-stable-stringify@2.1.0:
     resolution: {integrity: sha512-lhd/wF+Lk98HZoTCtlVraHtfh5XYijIjalXck7saUtuanSDyLMxnHhSXEDJqHxD7msR8D0uCmqlkwjCV8xvwHw==}
@@ -3697,6 +3721,28 @@ snapshots:
     dependencies:
       elliptic: 6.6.1
 
+  '@toruslabs/ethereum-controllers@6.3.2(@babel/runtime@7.26.0)':
+    dependencies:
+      '@babel/runtime': 7.26.0
+      '@ethereumjs/util': 9.1.0
+      '@toruslabs/base-controllers': 6.3.2(@babel/runtime@7.26.0)
+      '@toruslabs/http-helpers': 7.0.0(@babel/runtime@7.26.0)
+      '@web3auth/auth': 9.5.3(@babel/runtime@7.26.0)
+      async-mutex: 0.5.0
+      bignumber.js: 9.1.2
+      bn.js: 5.2.1
+      deepmerge: 4.3.1
+      ethers: 6.13.4
+      fast-json-patch: 3.1.1
+      fast-safe-stringify: 2.1.1
+      jsonschema: 1.4.1
+      loglevel: 1.9.2
+    transitivePeerDependencies:
+      - '@sentry/types'
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+
   '@toruslabs/ffjavascript@4.0.0': {}
 
   '@toruslabs/http-helpers@7.0.0(@babel/runtime@7.26.0)':
@@ -4193,6 +4239,38 @@ snapshots:
       deepmerge: 4.3.1
     optionalDependencies:
       '@web3auth/auth-adapter': 9.4.5(@babel/runtime@7.26.0)
+    transitivePeerDependencies:
+      - '@sentry/types'
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+
+  '@web3auth/wallet-services-plugin@9.4.5(@babel/runtime@7.26.0)(@web3auth/auth-adapter@9.4.5(@babel/runtime@7.26.0))':
+    dependencies:
+      '@babel/runtime': 7.26.0
+      '@web3auth/auth': 9.5.3(@babel/runtime@7.26.0)
+      '@web3auth/base': 9.4.5(@babel/runtime@7.26.0)
+      '@web3auth/no-modal': 9.4.5(@babel/runtime@7.26.0)(@web3auth/auth-adapter@9.4.5(@babel/runtime@7.26.0))
+      '@web3auth/ws-embed': 3.1.6(@babel/runtime@7.26.0)
+      loglevel: 1.9.2
+    transitivePeerDependencies:
+      - '@sentry/types'
+      - '@web3auth/auth-adapter'
+      - '@web3auth/wallet-connect-v2-adapter'
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+
+  '@web3auth/ws-embed@3.1.6(@babel/runtime@7.26.0)':
+    dependencies:
+      '@babel/runtime': 7.26.0
+      '@toruslabs/base-controllers': 6.3.2(@babel/runtime@7.26.0)
+      '@toruslabs/ethereum-controllers': 6.3.2(@babel/runtime@7.26.0)
+      '@web3auth/auth': 9.5.3(@babel/runtime@7.26.0)
+      fast-deep-equal: 3.1.3
+      loglevel: 1.9.2
+      pump: 3.0.2
+      readable-stream: 4.5.2
     transitivePeerDependencies:
       - '@sentry/types'
       - bufferutil
@@ -4836,6 +4914,8 @@ snapshots:
       glob-parent: 5.1.2
       merge2: 1.4.1
       micromatch: 4.0.8
+
+  fast-json-patch@3.1.1: {}
 
   fast-json-stable-stringify@2.1.0: {}
 
