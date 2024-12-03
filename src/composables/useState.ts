@@ -1,14 +1,13 @@
-import { effectScope, ref, type Ref } from 'vue';
+import { ref, type Ref } from 'vue';
 
 type State<T> = [Ref<T>, (newState: T) => void];
 
 export function useState<T>(initialState: T): State<T> {
-  const scope = effectScope();
-  const state = scope.run(() => ref<T>(initialState)) as Ref<T>;
+  const state = ref<T>(initialState);
 
   function setState(newState: T) {
     state.value = newState;
   }
 
-  return [state, setState];
+  return [state as Ref<T>, setState];
 }
