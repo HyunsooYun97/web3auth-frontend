@@ -53,7 +53,8 @@ router.beforeEach(async (to, from, next) => {
 
   if (
     (to.name === 'sign-in' && idToken !== null) ||
-    (to.name === 'wallet' && idToken === null)
+    (['wallet', 'wallet-services'].includes(to.name as string) &&
+      idToken === null)
   ) {
     next({ name: 'home' });
     return;
