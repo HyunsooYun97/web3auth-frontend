@@ -1,6 +1,6 @@
 import type { RouteRecordRaw } from 'vue-router';
 
-import { useWeb3AuthStore } from '@/stores/web3auth';
+import { useWeb3AuthStore } from '@/stores/useWeb3authStore';
 
 /**
  * @description Handle Google OAuth redirect.

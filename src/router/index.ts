@@ -4,7 +4,7 @@ import HomeView from '@/views/HomeView.vue';
 
 import redirect from './redirect';
 
-import { useWeb3AuthStore } from '@/stores/web3auth';
+import { useWeb3AuthStore } from '@/stores/useWeb3authStore';
 
 // route level code-splitting
 // this generates a separate chunk (About.[hash].js) for this route

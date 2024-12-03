@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue';
 import type { AuthUserInfo } from '@web3auth/auth-adapter';
 
-import { useWeb3AuthStore } from '@/stores/web3auth';
+import { useWeb3AuthStore } from '@/stores/useWeb3authStore';
 
 const web3authStore = useWeb3AuthStore();
 

@@ -2,7 +2,7 @@
 import { storeToRefs } from 'pinia';
 import { RouterLink, RouterView } from 'vue-router';
 
-import { useWeb3AuthStore } from '@/stores/web3auth';
+import { useWeb3AuthStore } from '@/stores/useWeb3authStore';
 
 import HelloWorld from './components/HelloWorld.vue';
 
