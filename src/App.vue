@@ -27,7 +27,10 @@ const { isLoggedIn } = storeToRefs(web3authStore);
         <RouterLink to="/">Home</RouterLink>
         <!-- <RouterLink to="/about">About</RouterLink> -->
         <RouterLink v-if="!isLoggedIn" to="/sign-in">Sign In</RouterLink>
-        <RouterLink v-if="isLoggedIn" to="/wallet">Wallet</RouterLink>
+        <template v-else>
+          <RouterLink to="/wallet">Wallet</RouterLink>
+          <RouterLink to="/wallet-services">Wallet Services</RouterLink>
+        </template>
       </nav>
     </div>
   </header>
