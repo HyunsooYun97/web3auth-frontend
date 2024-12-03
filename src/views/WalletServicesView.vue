@@ -1,24 +1,7 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import type { AuthUserInfo } from '@web3auth/auth-adapter';
+import { useWalletServiceStore } from '@/stores/useWalletServiceStore';
 
-import { useWeb3AuthStore } from '@/stores/useWeb3authStore';
-
-const web3authStore = useWeb3AuthStore();
-
-const userInfo = ref<AuthUserInfo | undefined>(undefined);
-const walletInfo = ref<string | undefined>(undefined);
-const balance = ref<string | undefined>(undefined);
-const address = ref<string | undefined>(undefined);
-const chainInfo = ref<string | undefined>(undefined);
-
-onMounted(async () => {
-  userInfo.value = (await web3authStore.getUserInfo()) as AuthUserInfo;
-  walletInfo.value = await web3authStore.getWalletInfo();
-  balance.value = await web3authStore.getBalance();
-  address.value = await web3authStore.getAddress();
-  chainInfo.value = await web3authStore.getChainInfo();
-});
+const walletServiceStore = useWalletServiceStore();
 </script>
 
 <template>
@@ -26,17 +9,28 @@ onMounted(async () => {
     <h1>Wallet Service</h1>
 
     <section class="contents">
-      <pre>User Info: {{ userInfo }}</pre>
+      <button
+        type="button"
+        @click="() => walletServiceStore.handleFiatOnRamp()"
+      >
+        Fiat On Ramp
+      </button>
+      <button type="button" @click="() => walletServiceStore.handleSwap()">
+        Swap
+      </button>
+      <button
+        type="button"
+        @click="() => walletServiceStore.handleWalletConnect()"
+      >
+        Wallet Connect
+      </button>
+      <button
+        type="button"
+        @click="() => walletServiceStore.handleWalletEmbeddedUI()"
+      >
+        Wallet Embedded UI
+      </button>
     </section>
-
-    <section class="contents">
-      <p>Wallet Info: {{ walletInfo }}</p>
-      <p>Balance: {{ balance }}</p>
-      <p>Address: {{ address }}</p>
-      <p>Chain Info: {{ chainInfo }}</p>
-    </section>
-
-    <button type="button" @click="web3authStore.logout">Logout</button>
   </div>
 </template>
 
@@ -61,12 +55,6 @@ onMounted(async () => {
     align-items: center;
     justify-content: center;
     gap: 1rem;
-
-    pre {
-      width: 100%;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
 
     button {
       padding: 0.5rem 1rem;
